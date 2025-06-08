@@ -17,16 +17,16 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia código da aplicação
-COPY cloudflare_dns_manager.py .
+COPY app.py cloudflare_manager.py docker_manager.py .
 
 # Cria usuário não-root
 RUN adduser -D -s /bin/sh cloudflare
 USER cloudflare
 
 # Comando padrão
-CMD ["python", "cloudflare_dns_manager.py"]
+CMD ["python", "app.py"]
 
 # Labels
-LABEL maintainer="Seu Nome <seu@email.com>"
+LABEL maintainer="Pedro Ramon <pedroramon.dev@gmail.com>"
 LABEL description="Cloudflare DNS Manager para Docker Swarm"
 LABEL version="1.0.0"

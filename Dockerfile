@@ -5,7 +5,8 @@ RUN apk add --no-cache \
     gcc \
     musl-dev \
     libffi-dev \
-    openssl-dev
+    openssl-dev \
+    docker-cli
 
 # Define diretório de trabalho
 WORKDIR /app
@@ -19,8 +20,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia código da aplicação
 COPY app.py cloudflare_manager.py docker_manager.py .
 
-# Cria usuário não-root
-RUN adduser -D -s /bin/sh cloudflare
+# Cria usuário não-root e adiciona ao grupo docker
+RUN addgroup -S docker && \
+    adduser -D -s /bin/sh cloudflare && \
+    adduser cloudflare docker
+
 USER cloudflare
 
 # Comando padrão
